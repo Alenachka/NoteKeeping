@@ -123,9 +123,30 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_cancel){
             mIsCancelling = true;
             finish();//activity will exit
+        } else if (id == R.id.action_next){
+            moveNext();
         }
 
         return super.onOptionsItemSelected( item );
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem( R.id.action_next );
+        int lastNoteIndex = DataManager.getInstance().getNotes().size()-1;
+        item.setEnabled( mNotePosition < lastNoteIndex );
+        return super.onPrepareOptionsMenu( menu );
+    }
+
+    private void moveNext() {
+        saveNote();
+
+        ++mNotePosition;
+        mNote = DataManager.getInstance().getNotes().get( mNotePosition );
+
+        saveOriginalNoteValues();
+        displayNote( mSpinnerCourses, mTextNoteTitle, mTextNoteText );
+        invalidateOptionsMenu(); //calls the method onPrepareOptionsMenu
     }
 
     @Override
