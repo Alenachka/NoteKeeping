@@ -1,6 +1,7 @@
 package com.example.notekeeping;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,6 +36,7 @@ public class MenuActivity extends AppCompatActivity
     private LinearLayoutManager mNotesLayoutManager;
     private CourseRecyclerAdapter mCourseRecyclerAdapter;
     private GridLayoutManager mCoursesLayoutManager;
+    private NoteKeepingOpenHelper mDbOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class MenuActivity extends AppCompatActivity
         setContentView( R.layout.activity_menu );
         Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
+
+        mDbOpenHelper = new NoteKeepingOpenHelper( this );
+
         FloatingActionButton fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -61,6 +66,12 @@ public class MenuActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        mDbOpenHelper.close();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         //when we create new note we must say adapter that the data has changed
@@ -68,6 +79,8 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void initializeDisplayContent() {
+        DataManager.loadFromDatabase( mDbOpenHelper );
+
         mRecyclerItems= (RecyclerView) findViewById( R.id.list_items );
         mNotesLayoutManager = new LinearLayoutManager( this );
         mCoursesLayoutManager = new GridLayoutManager( this, getResources().getInteger( R.integer.course_grid_span ) );
