@@ -83,7 +83,7 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-//        mNoteRecyclerAdapter.notifyDataSetChanged();
+
         getSupportLoaderManager().restartLoader( LOADER_NOTES, null, this);
     }
 

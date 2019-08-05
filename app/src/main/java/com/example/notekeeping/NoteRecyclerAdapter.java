@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notekeeping.NotekeepingDatabaseContract.CourseInfoEntry;
 import com.example.notekeeping.NotekeepingDatabaseContract.NoteInfoEntry;
 
-import java.util.List;
-
 public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>{
 
     private final Context mContext;
@@ -43,8 +41,7 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
     }
 
     public void changeCursor(Cursor cursor){
-        if(mCursor != null)
-            mCursor.close();
+        //if(mCursor != null) mCursor.close();
         mCursor = cursor;
         populateColumnPositions();
         notifyDataSetChanged();

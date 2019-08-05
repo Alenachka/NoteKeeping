@@ -35,4 +35,5 @@ public class NoteKeepingOpenHelper extends SQLiteOpenHelper {
             db.execSQL( NoteInfoEntry.SQL_CREATE_INDEX1);
         }
     }
+
 }
