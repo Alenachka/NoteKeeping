@@ -13,7 +13,8 @@
             android:name=".NoteKeepingProvider"
             android:authorities="com.example.notekeeping.provider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true">
+        </provider>
 
         <activity
             android:name=".SettingsActivity"
