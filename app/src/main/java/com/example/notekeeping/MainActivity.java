@@ -24,6 +24,8 @@ import androidx.loader.content.Loader;
 import com.example.notekeeping.NotekeepingDatabaseContract.CourseInfoEntry;
 import com.example.notekeeping.NotekeepingDatabaseContract.NoteInfoEntry;
 
+import static com.example.notekeeping.NoteKeepingProviderContract.*;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String NOTE_ID = "com.example.notekeeping.NOTE_ID";
     public static final String ORIGINAL_NOTE_COURSE_ID = "com.example.notekeeping.ORIGINAL_NOTE_COURSE_ID";
@@ -341,13 +343,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private CursorLoader createLoaderCourses() {
         mCoursesQueryFnished = false;
-        Uri uri = Uri.parse( "content://com.example.notekeeping.provider" );
+        Uri uri = Courses.CONTENT_URI;
         String[] courseColumns = {
-                CourseInfoEntry.COLUMN_COURSE_TITLE,
-                CourseInfoEntry.COLUMN_COURSE_ID,
-                CourseInfoEntry._ID
+                Courses.COLUMN_COURSE_TITLE,
+                Courses.COLUMN_COURSE_ID,
+                Courses._ID
         };
-        return new CursorLoader( this, uri, courseColumns, null, null, CourseInfoEntry.COLUMN_COURSE_TITLE );
+        return new CursorLoader( this, uri, courseColumns, null, null, Courses.COLUMN_COURSE_TITLE );
 
     }
 
