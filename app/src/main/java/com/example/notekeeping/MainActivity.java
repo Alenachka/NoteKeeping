@@ -1,5 +1,6 @@
 package com.example.notekeeping;
 
+import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -221,9 +223,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             finish();//activity will exit
         } else if (id == R.id.action_next) {
             moveNext();
+        } else if (id == R.id.action_set_reminder) {
+            showReminderNotification();
         }
 
         return super.onOptionsItemSelected( item );
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void showReminderNotification() {
+        String noteTitle = mTextNoteTitle.getText().toString();
+        String noteText = mTextNoteText.getText().toString();
+        NoteReminderNotification.notify( this, noteTitle, noteText);
     }
 
     @Override
@@ -250,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onPause() {
         super.onPause();
         if (mIsCancelling) {
-            Log.i(TAG, "Cancelling note at position: " + mNoteId);
+            Log.i( TAG, "Cancelling note at position: " + mNoteId );
             if (mIsNewNote) {
                 deleteNoteFromDatabase();
             } else {
@@ -307,11 +318,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void saveNoteToDatabase(String courseId, String noteTitle, String noteText) {
         ContentValues values = new ContentValues();
-        values.put(Notes.COLUMN_COURSE_ID, courseId);
-        values.put(Notes.COLUMN_NOTE_TITLE, noteTitle);
-        values.put(Notes.COLUMN_NOTE_TEXT, noteText);
+        values.put( Notes.COLUMN_COURSE_ID, courseId );
+        values.put( Notes.COLUMN_NOTE_TITLE, noteTitle );
+        values.put( Notes.COLUMN_NOTE_TEXT, noteText );
 
-        getContentResolver().update(mNoteUri, values, null, null);
+        getContentResolver().update( mNoteUri, values, null, null );
     }
 
     private void sendEmail() {
